@@ -36,9 +36,10 @@ var BarChartComponent = (function () {
             left: 0
         };
         var fromLeft = 40;
-        var color = this.color ? this.color : 'blue';
+        var color = this.color ? this.color : ['blue'];
         var barWidth = this.barWidth ? this.barWidth : '11px';
         var yAxisd3Format = this.yAxisd3Format ? this.yAxisd3Format : '.1S';
+        var yAxisTicks = this.yAxisTicks ? this.yAxisTicks : 10;
         var svg = d3.select('#barChart')
             .append('svg')
             .attr('width', width + 100)
@@ -61,7 +62,7 @@ var BarChartComponent = (function () {
         var yAxis = d3.svg.axis()
             .scale(y)
             .orient('left')
-            .ticks(10)
+            .ticks(yAxisTicks)
             .tickSize(-width, 0, 0)
             .tickFormat(d3.format(yAxisd3Format));
         var xAxis = d3.svg.axis()
@@ -83,7 +84,7 @@ var BarChartComponent = (function () {
             .data(dataset)
             .enter().append('g')
             .attr('class', 'cost')
-            .style('fill', function (d, i) { return color; });
+            .style('fill', function (d, i) { return color[i]; });
         var rect = groups.selectAll('rect')
             .data(function (d) { return d; })
             .enter()
@@ -132,12 +133,16 @@ var BarChartComponent = (function () {
     ], BarChartComponent.prototype, "yAxisd3Format", void 0);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", String)
+        __metadata("design:type", Array)
     ], BarChartComponent.prototype, "color", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Number)
     ], BarChartComponent.prototype, "dataGroup", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], BarChartComponent.prototype, "yAxisTicks", void 0);
     BarChartComponent = __decorate([
         core_1.Component({
             selector: 'angular-d3-bar',

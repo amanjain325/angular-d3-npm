@@ -7,8 +7,9 @@ export declare class BarChartComponent {
     transitionDelay: number;
     barWidth: any;
     yAxisd3Format: any;
-    color: string;
+    color: Array<any>;
     dataGroup: number;
+    yAxisTicks: number;
     constructor();
     ngOnInit(): void;
     renderChart(): void;

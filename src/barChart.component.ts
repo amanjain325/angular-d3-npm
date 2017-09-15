@@ -18,9 +18,10 @@ export class BarChartComponent {
     @Input() public transitionDelay: number;
     @Input() public barWidth: any;
     @Input() public yAxisd3Format: any;
-    @Input() public color: string;
+    @Input() public color: Array<any>;
     @Input() public dataGroup: number;
-
+    @Input() public yAxisTicks: number;
+    
     constructor() {
     }
 
@@ -48,9 +49,11 @@ export class BarChartComponent {
             left: 0
         };
         let fromLeft = 40;
-        let color = this.color ? this.color : 'blue';
+        let color = this.color ? this.color : ['blue'];
         let barWidth = this.barWidth ? this.barWidth : '11px';
         let yAxisd3Format = this.yAxisd3Format ? this.yAxisd3Format : '.1S';
+        let yAxisTicks = this.yAxisTicks ? this.yAxisTicks : 10;
+        
         let svg = d3.select('#barChart')
             .append('svg')
             .attr('width', width + 100)
@@ -77,7 +80,7 @@ export class BarChartComponent {
         let yAxis = d3.svg.axis()
             .scale(y)
             .orient('left')
-            .ticks(10)
+            .ticks(yAxisTicks)
             .tickSize(-width, 0, 0)
             .tickFormat(d3.format(yAxisd3Format));
 
@@ -104,7 +107,7 @@ export class BarChartComponent {
             .data(dataset)
             .enter().append('g')
             .attr('class', 'cost')
-            .style('fill', (d, i) => { return color; });
+            .style('fill', (d, i) => { return color[i]; });
         let rect = groups.selectAll('rect')
             .data((d) => { return d; })
             .enter()

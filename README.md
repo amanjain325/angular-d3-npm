@@ -131,11 +131,19 @@ It can contain the following properties.
 barChartData = [{
       id: 0, // number
       label: 'label name',  // string
-      value: value,  // number
+      value1: value,  // number
+      value2: value,  // number
+      value3: value,  // number
+      ... ,
+      valuen: value // number
    },
       id: 1, // number
       label: 'label name',  // string
-      value: value,  // number
+       value1: value,  // number
+      value2: value,  // number
+      value3: value,  // number
+      ... ,
+      valuen: value // number
    }, ... ]
 ```
 
@@ -154,9 +162,19 @@ It can contain the following properties.
 | __barWidth__     | '11px' | String | Width of the bars. |
 | __yAxisd3Format__     | '.1S' | String | d3Format of Y axis, Refer to the d3 documentation. |
 | __data__    | Not set | Object | As above mentioned |
-| __color__    | 'blue' | String | Color of the bars. |
-| __dataGroup__    | 1 | Number | Number of different data. |
+| __color__    | ['blue'] | Array | Color of the bars. |
+| __dataGroup__    | 1 | Number | Number of data. |
+| __yAxisTicks__    | 10 | Number | Ticks on Y axis. |
 
 ```ts
-<angular-d3-bar [data]="bardata" [color]="'red'" [width]=400 [height]=200 [transitionDuration]=1000 [transitionDelay]=30 [barWidth]="'16px'"></angular-d3-bar>
+<angular-d3-bar [data]="bardata" [color]="colors" [width]=400 [height]=200 [transitionDuration]=1000 [transitionDelay]=30 [barWidth]="'16px'"></angular-d3-bar>
+```
+
+```ts
+<angular-d3-bar [data]="bardata" [color]="colors" [dataGroup]="3" [width]=400 [height]=200 [transitionDuration]=1000 [transitionDelay]=30
+  [barWidth]="'16px'"></angular-d3-bar>
+```
+
+```ts
+colors = ['red', 'blue', 'green']
 ```
