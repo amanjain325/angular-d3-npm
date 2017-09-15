@@ -1,0 +1,38 @@
+{
+  "name": "angular-d3-charts",
+  "version": "3.0.6",
+  "description": "Integrate angular 2 app with interactive d3 charts e.g. Doughnut, Pie, Single Bar chart, Multiple bar chart and Stacked bar chart. Beautiful charts for Angular2 based on d3.js",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf bundle && tsc",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amanjain325/angular-d3-charts.git"
+  },
+  "keywords": [
+    "angular-d3",
+    "angular-d3-charts",
+    "d3-chart"
+  ],
+  "author": "aman jain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amanjain325/angular-d3-charts/issues"
+  },
+  "homepage": "https://github.com/amanjain325/angular-d3-charts#readme",
+  "dependencies": {
+    "@angular/core": "~4.3.1"
+  },
+  "readme": "README.md",
+  "devDependencies": {
+    "@types/core-js": "0.9.36",
+    "es6-promise": "^4.1.1",
+    "es6-shim": "^0.35.3",
+    "reflect-metadata": "^0.1.10",
+    "rxjs": "^5.4.3",
+    "zone.js": "^0.8.17"
+  }
+}
