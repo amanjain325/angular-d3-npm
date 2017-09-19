@@ -25,6 +25,7 @@ var PieChartComponent = (function () {
         var radius = 250;
         var piedata = this.data;
         this.outerRadius = this.outerRadius ? this.outerRadius : 150;
+        var chartID = this.chartID ? this.chartID : 'pieChart';
         var pie = d3.layout.pie()
             .startAngle(Math.PI / 2)
             .endAngle(Math.PI * 2 + Math.PI / 2)
@@ -35,7 +36,7 @@ var PieChartComponent = (function () {
             .outerRadius(this.outerRadius);
         var arcNew = d3.svg.arc()
             .outerRadius(this.outerRadius + 10);
-        var svg = d3.select('#pieChart').append('svg')
+        var svg = d3.select('#' + chartID).append('svg')
             .attr('width', 330)
             .attr('height', 330)
             .append('g')
@@ -114,6 +115,10 @@ var PieChartComponent = (function () {
         core_1.Input(),
         __metadata("design:type", Number)
     ], PieChartComponent.prototype, "outerRadius", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], PieChartComponent.prototype, "chartID", void 0);
     PieChartComponent = __decorate([
         core_1.Component({
             selector: 'angular-d3-pie',

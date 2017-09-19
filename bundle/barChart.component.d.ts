@@ -7,9 +7,19 @@ export declare class BarChartComponent {
     transitionDelay: number;
     barWidth: any;
     yAxisd3Format: any;
-    color: Array<any>;
-    dataGroup: number;
     yAxisTicks: number;
+    dataColumns: number[];
+    alphaDistance: number;
+    xAxisOrientation: string;
+    yAxisOrientation: string;
+    chartID: string;
+    defaultMargin: {
+        top: number;
+        right: number;
+        bottom: number;
+        left: number;
+    };
+    colors: Array<any>;
     constructor();
     ngOnInit(): void;
     renderChart(): void;

@@ -17,6 +17,8 @@ export class PieChartComponent {
     @Input() public data: any;
     @Input() public spreadSlice: boolean;
     @Input() public outerRadius: number;
+    @Input() public chartID: string;
+
     constructor() {
     }
 
@@ -33,6 +35,7 @@ export class PieChartComponent {
         let radius = 250;
         let piedata = this.data;
         this.outerRadius = this.outerRadius ? this.outerRadius : 150;
+        let chartID = this.chartID ? this.chartID : 'pieChart';
 
         let pie = d3.layout.pie()
             .startAngle(Math.PI / 2)
@@ -47,7 +50,7 @@ export class PieChartComponent {
         let arcNew = d3.svg.arc()
             .outerRadius(this.outerRadius + 10)
 
-        let svg = d3.select('#pieChart').append('svg')
+        let svg = d3.select('#' + chartID).append('svg')
             .attr('width', 330)
             .attr('height', 330)
             .append('g')

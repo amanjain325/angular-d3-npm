@@ -28,6 +28,7 @@ var DoughnutChartComponent = (function () {
         this.outerRadius = this.outerRadius ? this.outerRadius : 150;
         this.innerRadius = this.innerRadius ? this.innerRadius : 70;
         this.spreadSlice = this.spreadSlice ? this.spreadSlice : false;
+        var chartID = this.chartID ? this.chartID : 'donutChart';
         var pie = d3.layout.pie()
             .startAngle(Math.PI / 2)
             .endAngle(Math.PI * 2 + Math.PI / 2)
@@ -40,7 +41,7 @@ var DoughnutChartComponent = (function () {
         var arcNew = d3.svg.arc()
             .outerRadius(this.outerRadius + 10)
             .innerRadius(this.innerRadius);
-        var svg = d3.select('#donutChart').append('svg')
+        var svg = d3.select('#' + chartID).append('svg')
             .attr('width', 330)
             .attr('height', 330)
             .append('g')
@@ -188,6 +189,10 @@ var DoughnutChartComponent = (function () {
         core_1.Input(),
         __metadata("design:type", Boolean)
     ], DoughnutChartComponent.prototype, "spreadSlice", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], DoughnutChartComponent.prototype, "chartID", void 0);
     __decorate([
         core_1.Output(),
         __metadata("design:type", Object)

@@ -6,6 +6,7 @@ export declare class PieChartComponent {
     data: any;
     spreadSlice: boolean;
     outerRadius: number;
+    chartID: string;
     constructor();
     ngOnInit(): void;
     renderChart(): void;

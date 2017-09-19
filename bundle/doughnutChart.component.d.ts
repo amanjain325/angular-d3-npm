@@ -9,6 +9,7 @@ export declare class DoughnutChartComponent {
     data: any;
     centerImage: any;
     spreadSlice: boolean;
+    chartID: string;
     centerImageEvent: EventEmitter<{}>;
     constructor();
     ngOnInit(): void;

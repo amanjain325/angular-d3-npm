@@ -12,92 +12,137 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var BarChartComponent = (function () {
     function BarChartComponent() {
-    }
-    BarChartComponent.prototype.ngOnInit = function () {
-        this.renderChart();
-    };
-    BarChartComponent.prototype.renderChart = function () {
-        var valueArray = [];
-        var dataGroup = this.dataGroup ? this.dataGroup + 1 : 2;
-        for (var i = 1; i < dataGroup; i++) {
-            valueArray.push('value' + i);
-        }
-        var chartComponent = this;
-        var width = this.width ? this.width : 700;
-        var height = this.height ? this.height : 400;
-        var transitionDuration = this.transitionDuration ? this.transitionDuration : 1000;
-        var transitionDelay = this.transitionDelay ? this.transitionDelay : 100;
-        var radius = 250;
-        var data = this.data;
-        var margin = {
+        this.dataColumns = [3, 3];
+        this.defaultMargin = {
             top: 20,
             right: 160,
             bottom: 35,
             left: 0
         };
-        var fromLeft = 40;
-        var color = this.color ? this.color : ['blue'];
+    }
+    BarChartComponent.prototype.ngOnInit = function () {
+        this.renderChart();
+    };
+    BarChartComponent.prototype.renderChart = function () {
+        var margin = this.margin ? this.margin : this.defaultMargin;
+        var width = this.width ? this.width : 400;
+        var height = this.height ? this.height : 300;
+        var xAxisOrientation = this.xAxisOrientation ? this.xAxisOrientation : 'bottom';
+        var yAxisOrientation = this.yAxisOrientation ? this.yAxisOrientation : 'left';
+        var columns = this.dataColumns ? this.dataColumns : [1];
+        var colors = this.colors;
+        var alphaDistance = this.alphaDistance ? this.alphaDistance : 0.6;
+        var yAxisTicks = this.yAxisTicks ? this.yAxisTicks : 10;
         var barWidth = this.barWidth ? this.barWidth : '11px';
         var yAxisd3Format = this.yAxisd3Format ? this.yAxisd3Format : '.1S';
-        var yAxisTicks = this.yAxisTicks ? this.yAxisTicks : 10;
-        var svg = d3.select('#barChart')
+        var transitionDuration = this.transitionDuration ? this.transitionDuration : 1000;
+        var transitionDelay = this.transitionDelay ? this.transitionDelay : 100;
+        var chartID = this.chartID ? this.chartID : 'barChart';
+        var fromLeft = 40;
+        var svg = d3.select('#' + chartID)
             .append('svg')
-            .attr('width', width + 100)
+            .attr('width', width)
             .attr('height', height + margin.top + margin.bottom + 2)
             .append('g')
             .attr('transform', 'translate(' + (margin.left + fromLeft) + ',' + margin.top + ')');
-        var dataset = d3.layout.stack()(valueArray.map(function (value) {
-            return data.map(function (d) {
-                return { x: d.label, y: d.value };
-            });
-        }));
-        var x = d3.scale.ordinal()
-            .domain(dataset[0].map(function (d) { return d.x; }))
-            .rangeBands([0, width], 1);
+        var x0 = d3.scale.ordinal()
+            .rangeRoundBands([0, width - 30], alphaDistance);
+        var x1 = d3.scale.ordinal();
         var y = d3.scale.linear()
-            .domain([0, d3.max(dataset, function (d) {
-                return d3.max(d, function (d1) { return d1.y0 + d1.y; });
-            })])
             .range([height, 0]);
+        var xAxis = d3.svg.axis()
+            .scale(x0)
+            .orient(xAxisOrientation);
         var yAxis = d3.svg.axis()
             .scale(y)
-            .orient('left')
+            .orient(yAxisOrientation)
             .ticks(yAxisTicks)
-            .tickSize(-width, 0, 0)
-            .tickFormat(d3.format(yAxisd3Format));
-        var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient('bottom');
-        svg.append('g')
-            .attr('class', 'y axis')
-            .call(yAxis);
+            .tickFormat(d3.format(yAxisd3Format))
+            .innerTickSize(-width)
+            .tickPadding(10);
+        var color = d3.scale.ordinal()
+            .range(colors);
+        var yBegins;
+        var innerColumns = {};
+        var count = 1;
+        for (var i = 0; i < columns.length; i++) {
+            innerColumns['column' + (i + 1)] = columns[i];
+            var arr = [];
+            for (var j = 0; j < columns[i]; j++) {
+                var num = 'value' + count;
+                count = count + 1;
+                arr.push(num);
+                innerColumns['column' + (i + 1)] = arr;
+            }
+        }
+        var columnHeaders = d3.keys(this.data[0]).filter(function (key) { return key !== 'day'; });
+        color.domain(d3.keys(this.data[0]).filter(function (key) { return key !== 'day'; }));
+        this.data.forEach(function (d) {
+            var yColumn = new Array();
+            d.columnDetails = columnHeaders.map(function (value) {
+                for (var ic in innerColumns) {
+                    if ($.inArray(value, innerColumns[ic]) >= 0) {
+                        if (!yColumn[ic]) {
+                            yColumn[ic] = 0;
+                        }
+                        yBegins = yColumn[ic];
+                        yColumn[ic] += +d[value];
+                        return { name: value, column: ic, yBegin: yBegins, yEnd: +d[value] + yBegins, };
+                    }
+                }
+            });
+            d.total = d3.max(d.columnDetails, function (d1) {
+                return d1 ? d1.yEnd : 0;
+            });
+        });
+        x0.domain(this.data.map(function (d) { return d.label; }));
+        x1.domain(d3.keys(innerColumns)).rangeRoundBands([0, x0.rangeBand()]);
+        y.domain([0, d3.max(this.data, function (d) {
+                return d.total;
+            })]);
         svg.append('g')
             .attr('class', 'x axis')
             .attr('transform', 'translate(0,' + height + ')')
             .call(xAxis);
-        svg.selectAll('.x')
-            .selectAll('text');
+        svg.append('g')
+            .attr('class', 'y axis')
+            .call(yAxis)
+            .append('text')
+            .attr('transform', 'rotate(-90)')
+            .attr('y', 6)
+            .attr('dy', '.7em')
+            .style('text-anchor', 'end')
+            .text('');
         svg.selectAll('.y')
             .selectAll('path')
             .style('display', 'none');
-        var groups = svg.selectAll('g.cost')
-            .data(dataset)
+        var stackedbars = svg.selectAll('.project_stackedbar')
+            .data(this.data)
             .enter().append('g')
-            .attr('class', 'cost')
-            .style('fill', function (d, i) { return color[i]; });
-        var rect = groups.selectAll('rect')
-            .data(function (d) { return d; })
-            .enter()
-            .append('rect')
-            .attr('x', function (d) { return x(d.x); })
+            .attr('class', 'g')
+            .attr('transform', function (d) { return 'translate(' + x0(d.label) + ',0)'; });
+        stackedbars.selectAll('rect')
+            .data(function (d) { return d.columnDetails; })
+            .enter().append('rect')
+            .attr('width', x1.rangeBand())
+            .attr('x', function (d) {
+            return x1(d ? d.column : '');
+        })
+            .style('fill', function (d) {
+            return d ? color(d.name) : '';
+        })
             .attr('y', height - 1)
             .attr('height', 0)
             .attr('width', barWidth)
             .transition()
             .duration(transitionDuration)
             .delay(transitionDelay)
-            .attr('y', function (d) { return y(d.y0 + d.y); })
-            .attr('height', function (d) { return y(d.y0) - y(d.y0 + d.y); });
+            .attr('y', function (d) {
+            return y(d ? d.yEnd : 0);
+        })
+            .attr('height', function (d) {
+            return y(d ? d.yBegin : 0) - y(d ? d.yEnd : 0);
+        });
     };
     __decorate([
         core_1.Input(),
@@ -133,16 +178,36 @@ var BarChartComponent = (function () {
     ], BarChartComponent.prototype, "yAxisd3Format", void 0);
     __decorate([
         core_1.Input(),
-        __metadata("design:type", Array)
-    ], BarChartComponent.prototype, "color", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Number)
-    ], BarChartComponent.prototype, "dataGroup", void 0);
-    __decorate([
-        core_1.Input(),
         __metadata("design:type", Number)
     ], BarChartComponent.prototype, "yAxisTicks", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], BarChartComponent.prototype, "dataColumns", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], BarChartComponent.prototype, "alphaDistance", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], BarChartComponent.prototype, "xAxisOrientation", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], BarChartComponent.prototype, "yAxisOrientation", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], BarChartComponent.prototype, "chartID", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], BarChartComponent.prototype, "defaultMargin", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], BarChartComponent.prototype, "colors", void 0);
     BarChartComponent = __decorate([
         core_1.Component({
             selector: 'angular-d3-bar',

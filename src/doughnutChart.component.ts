@@ -19,6 +19,7 @@ export class DoughnutChartComponent {
     @Input() public data: any;
     @Input() public centerImage: any;
     @Input() public spreadSlice: boolean;
+    @Input() public chartID: string;    
     @Output() public centerImageEvent = new EventEmitter();
     constructor() {
     }
@@ -38,6 +39,7 @@ export class DoughnutChartComponent {
         this.outerRadius = this.outerRadius ? this.outerRadius : 150;
         this.innerRadius = this.innerRadius ? this.innerRadius : 70;
         this.spreadSlice = this.spreadSlice ? this.spreadSlice : false;
+        let chartID = this.chartID ? this.chartID : 'donutChart';
         let pie = d3.layout.pie()
             .startAngle(Math.PI / 2)
             .endAngle(Math.PI * 2 + Math.PI / 2)
@@ -53,7 +55,7 @@ export class DoughnutChartComponent {
             .outerRadius(this.outerRadius + 10)
             .innerRadius(this.innerRadius);
 
-        let svg = d3.select('#donutChart').append('svg')
+        let svg = d3.select('#' + chartID).append('svg')
             .attr('width', 330)
             .attr('height', 330)
             .append('g')
