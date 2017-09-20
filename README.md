@@ -281,3 +281,8 @@ public  barChartData = [{
  <angular-d3-bar [id]="test2" [data]="barChartData" [dataColumns]="dataColumns" [colors]="colors" [yAxisTicks]=10 [width]=400
     [height]=200 [transitionDuration]=1000 [transitionDelay]=30 [barWidth]="'16px'"></angular-d3-bar>
 ```
+
+## Github
+
+<https://github.com/amanjain325/angular-d3-charts>
+
