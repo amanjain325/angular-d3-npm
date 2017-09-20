@@ -7,29 +7,7 @@ declare let $: any;
     template: `
     <div id="barChart">
     </div>
-  `,
-    styles: [
-        `.tick text {
-      font-size: 12px;
-  }
-
-  .axis path,
-  .axis line {
-      fill: none;
-      stroke: #4C5554;
-      stroke-width: 1;
-  }
-
-  .x.axis .tick line {
-      display: none
-  }
-
-  .domain {
-      display: block !important;
-      stroke: #4C5554 !important;
-      stroke-width: 2 !important;
-  }`
-]
+  `
 })
 export class BarChartComponent {
     @Input() public width: number;
