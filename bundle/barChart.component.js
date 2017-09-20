@@ -116,6 +116,11 @@ var BarChartComponent = (function () {
         svg.selectAll('.y')
             .selectAll('path')
             .style('display', 'none');
+        if (this.dataColumns.length == 1) {
+            svg.selectAll(".x")
+                .selectAll('text')
+                .attr("x", function (d) { return -20; });
+        }
         var stackedbars = svg.selectAll('.project_stackedbar')
             .data(this.data)
             .enter().append('g')
@@ -211,7 +216,10 @@ var BarChartComponent = (function () {
     BarChartComponent = __decorate([
         core_1.Component({
             selector: 'angular-d3-bar',
-            template: "\n    <div id=\"barChart\">\n    </div>\n  "
+            template: "\n    <div id=\"barChart\">\n    </div>\n  ",
+            styles: [
+                ".tick text {\n      font-size: 12px;\n  }\n\n  .axis path,\n  .axis line {\n      fill: none;\n      stroke: #4C5554;\n      stroke-width: 1;\n  }\n\n  .x.axis .tick line {\n      display: none\n  }\n\n  .domain {\n      display: block !important;\n      stroke: #4C5554 !important;\n      stroke-width: 2 !important;\n  }"
+            ]
         }),
         __metadata("design:paramtypes", [])
     ], BarChartComponent);

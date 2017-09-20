@@ -20,12 +20,13 @@ var PieChartComponent = (function () {
         var chartComponent = this;
         var imageWidth = this.iconWidth ? this.iconWidth : 40;
         var imageHeight = this.iconHeight ? this.iconHeight : 40;
-        var width = this.width ? this.width : 400;
+        var width = this.width ? this.width : 700;
         var height = this.height ? this.height : 400;
         var radius = 250;
         var piedata = this.data;
         this.outerRadius = this.outerRadius ? this.outerRadius : 150;
         var chartID = this.chartID ? this.chartID : 'pieChart';
+        this.outerRadius > 150 ? this.outerRadius = 150 : this.outerRadius;
         var pie = d3.layout.pie()
             .startAngle(Math.PI / 2)
             .endAngle(Math.PI * 2 + Math.PI / 2)
@@ -37,10 +38,10 @@ var PieChartComponent = (function () {
         var arcNew = d3.svg.arc()
             .outerRadius(this.outerRadius + 10);
         var svg = d3.select('#' + chartID).append('svg')
-            .attr('width', 330)
-            .attr('height', 330)
+            .attr('width', width)
+            .attr('height', height)
             .append('g')
-            .attr('transform', 'translate(' + (width - radius + 10) + ',' + (height - radius + 10) + ')');
+            .attr('transform', 'translate(' + (400 - radius + 10) + ',' + (400 - radius + 10) + ')');
         var g = svg.selectAll('.arc')
             .data(pie(piedata))
             .enter().append('g')
@@ -86,6 +87,41 @@ var PieChartComponent = (function () {
                 });
             }
         });
+        var legendLabels = [];
+        var legendColors = [];
+        for (var i = 0; i < piedata.length; i++) {
+            legendLabels.push(piedata[i].label);
+            legendColors.push(piedata[i].color);
+        }
+        var color = d3.scale.ordinal()
+            .domain(legendLabels)
+            .range(legendColors);
+        var legendItemSize = 18;
+        var legendSpacing = 4;
+        var legend = svg
+            .selectAll('.legend')
+            .data(color.domain())
+            .enter()
+            .append('g')
+            .attr('class', 'legend')
+            .attr('transform', function (d, i) {
+            var multiplicationFactor = 9;
+            var height = legendItemSize + legendSpacing;
+            var offset = height * color.domain().length / 2;
+            var x = legendItemSize * multiplicationFactor;
+            var y = ((i * height) - offset);
+            return "translate(" + x + ", " + y + ")";
+        });
+        legend
+            .append('rect')
+            .attr('width', legendItemSize)
+            .attr('height', legendItemSize)
+            .style('fill', color);
+        legend
+            .append('text')
+            .attr('x', legendItemSize + legendSpacing)
+            .attr('y', legendItemSize - legendSpacing)
+            .text(function (d) { return d; });
     };
     __decorate([
         core_1.Input(),

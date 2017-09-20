@@ -10,6 +10,9 @@ export declare class DoughnutChartComponent {
     centerImage: any;
     spreadSlice: boolean;
     chartID: string;
+    middleText: string;
+    middleTextColor: string;
+    middleTextFontSize: string;
     centerImageEvent: EventEmitter<{}>;
     constructor();
     ngOnInit(): void;

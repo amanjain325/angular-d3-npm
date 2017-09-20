@@ -7,7 +7,29 @@ declare let $: any;
     template: `
     <div id="barChart">
     </div>
-  `
+  `,
+    styles: [
+        `.tick text {
+      font-size: 12px;
+  }
+
+  .axis path,
+  .axis line {
+      fill: none;
+      stroke: #4C5554;
+      stroke-width: 1;
+  }
+
+  .x.axis .tick line {
+      display: none
+  }
+
+  .domain {
+      display: block !important;
+      stroke: #4C5554 !important;
+      stroke-width: 2 !important;
+  }`
+]
 })
 export class BarChartComponent {
     @Input() public width: number;
@@ -149,7 +171,12 @@ export class BarChartComponent {
         svg.selectAll('.y')
             .selectAll('path')
             .style('display', 'none');
-
+        if (this.dataColumns.length == 1) {
+            svg.selectAll(".x")
+                .selectAll('text')
+                .attr("x", function (d) { return -20; })
+            // .attr("y", function (d) { return 6; })
+        }
         let stackedbars = svg.selectAll('.project_stackedbar')
             .data(this.data)
             .enter().append('g')
