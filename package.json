@@ -1,6 +1,6 @@
 {
   "name": "angular-d3-charts",
-  "version": "4.3.9",
+  "version": "4.4.0",
   "description": "Integrate angular 2 app with interactive d3 charts e.g. Doughnut, Pie, Single Bar chart, Multiple bar chart and Stacked bar chart. Beautiful charts for Angular2 based on d3.js",
   "main": "main.js",
   "scripts": {
