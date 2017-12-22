@@ -1,6 +1,6 @@
 {
   "name": "angular-d3-charts",
-  "version": "4.4.9",
+  "version": "5.0.0",
   "description": "Doughnut, Pie, Single Bar chart, Multiple bar chart and Stacked bar chart.",
   "main": "main.js",
   "scripts": {
@@ -28,16 +28,5 @@
     "url": "https://github.com/amanjain325/angular-d3-charts/issues"
   },
   "homepage": "https://github.com/amanjain325/angular-d3-charts#readme",
-  "dependencies": {
-    "@angular/core": "~4.3.1"
-  },
-  "readme": "README.md",
-  "devDependencies": {
-    "@types/core-js": "0.9.36",
-    "es6-promise": "^4.1.1",
-    "es6-shim": "^0.35.3",
-    "reflect-metadata": "^0.1.10",
-    "rxjs": "^5.4.3",
-    "zone.js": "^0.8.17"
-  }
+  "readme": "README.md"
 }
