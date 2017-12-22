@@ -7,9 +7,7 @@ Integrate Angular 2+ app with interactive d3 charts e.g. **Doughnut, Pie, Single
 
 Beautiful charts for Angular2+ based on d3.js
 
-**Last updated- 20th September 2017**
-**1. Labels showing on donut chart and pie chart.**
-**2. Bar charts x axis labels position bug resolved.**
+**Note: Line charts are under developement.**
 
 ## Github
 <https://github.com/amanjain325/angular-d3-charts>
@@ -296,24 +294,21 @@ It can contain the following properties.
 | __dataColumns__    | [1] | Array | Length of array = Number of columns ,Value on index = number of stacked bars on particular column.|
 
 ### Single Bar Chart
-
+### dataColumns = [1];
 ```html
---- Single Bar Chart --- // dataColumns = [1];
 <angular-d3-bar [id]="test2" [data]="barChartData" [dataColumns]="dataColumns" [colors]="colors" [yAxisTicks]=10 [width]=400 [height]=200 [transitionDuration]=1000 [transitionDelay]=30
 [barWidth]="'16px'"></angular-d3-bar>
 ```
 ### Stacked Bar Chart 
-
+### dataColumns = [3];
 ```html
---- Stacked Bar Chart --- // dataColumns = [3];
 <angular-d3-bar [id]="test1" [alphaDistance]="0.3" [data]="barChartData" [dataColumns]="dataColumns1" [colors]="colors" [yAxisTicks]=10 [width]=400 [height]=200 [transitionDuration]=1000 [transitionDelay]=30
 [barWidth]="'16px'"></angular-d3-bar>
 ```
 
 ### Multi Bar Chart 
-
+### dataColumns = [3, 2];
 ```html
---- Multi Stacked Bar Chart --- // dataColumns = [3, 2];
 <angular-d3-bar [id]="test1" [alphaDistance]="0.3" [data]="barChartData" [dataColumns]="dataColumns1" [colors]="colors" [yAxisTicks]=10 [width]=400 [height]=200 [transitionDuration]=1000 [transitionDelay]=30
 [barWidth]="'16px'"></angular-d3-bar>
 ```
