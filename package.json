@@ -1,6 +1,6 @@
 {
   "name": "angular-d3-charts",
-  "version": "4.4.7",
+  "version": "4.4.9",
   "description": "Doughnut, Pie, Single Bar chart, Multiple bar chart and Stacked bar chart.",
   "main": "main.js",
   "scripts": {

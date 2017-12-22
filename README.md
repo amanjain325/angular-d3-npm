@@ -7,7 +7,6 @@ Integrate Angular 2+ app with interactive d3 charts e.g. **Doughnut, Pie, Single
 
 Beautiful charts for Angular2+ based on d3.js
 
-**Note: Line charts are under developement.**
 
 ## Github
 <https://github.com/amanjain325/angular-d3-charts>
